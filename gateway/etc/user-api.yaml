@@ -1,0 +1,25 @@
+Name: user-api
+Host: 0.0.0.0
+Port: 8888
+UserRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+ScoreRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: score.rpc
+Auth:
+  AccessSecret: 31*&@(*&YUUYO*Q!PP()_@_@_+=
+  AccessExpire: 36000000
+Prometheus:
+  Host: 127.0.0.1
+  Port: 9091
+  Path: /metrics
+Telemetry:
+  Name: user-rpc
+  Endpoint: http://8.130.45.145:14268/api/traces
+  Sample: 1.0
+  Batcher: jaeger

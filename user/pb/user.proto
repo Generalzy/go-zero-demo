@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./user";
+
+message RetrieveUserRequest {
+  string id = 1 ;
+}
+
+message RetrieveUserResponse {
+  string id = 1 ;
+  string  name = 2;
+  string Email = 3;
+
+  string create_at=4;
+  string update_at=5;
+}
+
+message CreateUserRequest {
+  string  name = 1;
+  string Email = 2;
+
+  string create_at=3;
+  string update_at=4;
+}
+
+message CreateUserResponse {
+  string id = 1 ;
+  string name = 2;
+  string Email = 3;
+
+  string create_at=4;
+  string update_at=5;
+}
+
+message DeleteUserRequest {
+  string id = 1 ;
+}
+message DeleteUserResponse{
+
+}
+
+service User{
+  rpc retrieveUser(RetrieveUserRequest)returns(RetrieveUserResponse);
+  rpc createUser(CreateUserRequest)returns(CreateUserResponse);
+  rpc deleteUser(DeleteUserRequest)returns(DeleteUserResponse);
+  rpc createUserCallback(CreateUserRequest)returns(CreateUserResponse);
+}

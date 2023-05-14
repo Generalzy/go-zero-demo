@@ -1,0 +1,80 @@
+syntax = "v1"
+
+info(
+	title: "user svc gateway"
+	desc: "user svc gateway"
+	author: "generalzy"
+	email: "-"
+	version: "v1"
+)
+
+type RetrieveUserRequest {
+	ID string `json:"id"`
+}
+
+type RetrieveUserResponse {
+	Name     string `bson:"name" json:"name"`
+	Password string `bson:"password" json:"password"`
+	Email    string `bson:"email" json:"email"`
+
+	CreatedAt string `bson:"created_at" json:"createdAt"`
+	UpdatedAt string `bson:"updated_at" json:"updatedAt"`
+	DeletedAt string `bson:"deleted_at" json:"deletedAt"`
+}
+
+type CreateUserRequest {
+	Name     string `bson:"name" json:"name"`
+	Password string `bson:"password" json:"password"`
+	Email    string `bson:"email" json:"email""`
+}
+
+type CreateUserResponse {
+	ID        string `json:"id"`
+	Name      string `bson:"name" json:"name"`
+	Email     string `bson:"email" json:"email"`
+	CreatedAt string `bson:"created_at" json:"createdAt"`
+	UpdatedAt string `bson:"updated_at" json:"updatedAt"`
+}
+
+type UserLoginRequest {
+	Name     string `bson:"name" json:"name"`
+	Password string `bson:"password" json:"password"`
+}
+
+type UserLoginResponse {
+	Token string `bson:"token"`
+}
+
+@server (
+	// 写了jwt认证代表下边的接口需要jwt认证
+	jwt: Auth
+	middleware: AuthMiddleware
+)
+service user-api{
+	@handler CreateUserHandler
+	post /api/v1/user/create(CreateUserRequest)returns(CreateUserResponse)
+}
+
+service user-api{
+	@handler RetrieveUserHandler
+	get /api/v1/user/retrieve (RetrieveUserRequest) returns (RetrieveUserResponse)
+	@handler UserLoginHandler
+	post /api/v1/user/login(UserLoginRequest)returns (UserLoginResponse)
+}
+
+type UserScoreRequest {
+	ID    string `json:"id"`
+	Score int32  `json:"score"`
+}
+
+type UserScoreResponse {
+	ID    string `json:"id"`
+	Score int32  `json:"score"`
+}
+
+service user-api{
+	@handler SaveUserScoreHandler
+	post /api/v1/score/save (UserScoreRequest)returns (UserScoreResponse)
+	@handler SaveUserScoreCallbackHandler
+	post /api/v1/socre/callback(UserScoreRequest)returns(UserScoreResponse)
+}
